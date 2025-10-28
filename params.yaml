@@ -1,0 +1,30 @@
+variables:
+  random_state: 42
+  test_size: 0.2
+  train_size: 0.8
+preparation:
+  sample_size: 0.01
+  columns:
+    - InvoiceNo
+    - StockCode
+    - Description
+    - Quantity
+    - InvoiceDate
+    - UnitPrice
+    - CustomerID
+    - Country
+  types:
+    columns:
+      InvoiceNo: str
+      StockCode: str
+      Description: str
+      Quantity: int
+      InvoiceDate: datetime
+      UnitPrice: float
+      CustomerID: int
+      Country: str
+paths:
+  data: 'data/transacciones_retail.csv'
+  prepared_data: 'data/prepared_data.csv'
+
+  

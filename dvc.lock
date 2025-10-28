@@ -1,0 +1,40 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/preparation.py
+    deps:
+    - path: data/transacciones_retail.csv
+      hash: md5
+      md5: 5d295417e543b29d40366cd75fb4c75a
+      size: 45580638
+    - path: src/preparation.py
+      hash: md5
+      md5: 2839a746a4c86821554d331f93b7946e
+      size: 1703
+    params:
+      params.yaml:
+        preparation.columns:
+        - InvoiceNo
+        - StockCode
+        - Description
+        - Quantity
+        - InvoiceDate
+        - UnitPrice
+        - CustomerID
+        - Country
+        preparation.sample_size: 0.01
+        preparation.types:
+          columns:
+            InvoiceNo: str
+            StockCode: str
+            Description: str
+            Quantity: int
+            InvoiceDate: datetime
+            UnitPrice: float
+            CustomerID: int
+            Country: str
+    outs:
+    - path: data/prepared_data.csv
+      hash: md5
+      md5: b0742c77732300a52bf06a3772f67299
+      size: 359044

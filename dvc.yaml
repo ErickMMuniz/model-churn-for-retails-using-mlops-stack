@@ -1,0 +1,12 @@
+stages:
+  prepare:
+    cmd: python src/preparation.py
+    deps:
+    - data/transacciones_retail.csv
+    - src/preparation.py
+    params:
+    - preparation.sample_size
+    - preparation.columns
+    - preparation.types
+    outs:
+    - data/prepared_data.csv
