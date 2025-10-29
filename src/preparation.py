@@ -54,7 +54,7 @@ def process() -> None:
     df = sample_data(df)
 
     path_prepared_data = params['paths']['prepared_data']
-    df.to_csv(path_prepared_data, index=False)
+    df.to_csv(path_prepared_data, index=False, encoding='utf-8')
 
 
 if __name__ == "__main__":

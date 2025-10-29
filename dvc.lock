@@ -9,8 +9,8 @@ stages:
       size: 45580638
     - path: src/preparation.py
       hash: md5
-      md5: 2839a746a4c86821554d331f93b7946e
-      size: 1703
+      md5: 88dee824af70bd149a81377e1641eb10
+      size: 1721
     params:
       params.yaml:
         preparation.columns:
@@ -36,5 +36,5 @@ stages:
     outs:
     - path: data/prepared_data.csv
       hash: md5
-      md5: b0742c77732300a52bf06a3772f67299
-      size: 359044
+      md5: 6065facfdf861534fb1284f253a5ee1b
+      size: 359717

@@ -23,8 +23,17 @@ preparation:
       UnitPrice: float
       CustomerID: int
       Country: str
+featurization_data:
+  columns:
+    - customer_id
+    - is_churn
+  types:
+    columns:
+      customer_id: int
+      is_churn: bool
 paths:
   data: 'data/transacciones_retail.csv'
   prepared_data: 'data/prepared_data.csv'
+  featurization_data: 'data/featurization_data.csv'
 
   
