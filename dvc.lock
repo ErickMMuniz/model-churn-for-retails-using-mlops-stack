@@ -116,8 +116,8 @@ stages:
       size: 222160
     - path: src/training.py
       hash: md5
-      md5: daafa3a0693fcf51c8f8608f08047bfd
-      size: 2896
+      md5: 3fa468f39d756ce1be5df969431f362c
+      size: 3164
     params:
       params.yaml:
         variables.random_state: 42
@@ -126,5 +126,5 @@ stages:
     outs:
     - path: data/metrics_model.json
       hash: md5
-      md5: 27bfd55a0421b1f4f94c41ce285b2a52
-      size: 83
+      md5: 5a042a84af08de6aa3d685a7922737b3
+      size: 159

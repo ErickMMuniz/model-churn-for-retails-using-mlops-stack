@@ -2,4 +2,6 @@ dvc
 notebook
 black
 scikit-learn
+imbalanced-learn
 matplotlib
+seaborn

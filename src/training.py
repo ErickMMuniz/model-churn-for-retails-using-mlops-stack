@@ -19,7 +19,14 @@ from sklearn.metrics import (
 
 
 mlflow.set_tracking_uri(uri="http://127.0.0.1:8080")
+mlflow.set_experiment("churn-model")
+
 params = dvc.api.params_show()
+
+data_url = dvc.api.get_url(
+    path=params["paths"]["data"],
+    rev="main",
+)
 
 
 @log_function_call
@@ -81,13 +88,12 @@ def evaluate_model(model, X_test: pd.DataFrame, y_test: pd.DataFrame) -> pd.Data
 
 
 @log_function_call
-def record_model(model, X_train, metrics):
+def record_model(model, X_train, metrics, params_to_record):
     with mlflow.start_run():
         signature = infer_signature(X_train, model.predict(X_train))
         mlflow.sklearn.log_model(model, artifact_path="models/churn_model", signature=signature)
-        mlflow.log_params(params)
+        mlflow.log_params(params_to_record)
         mlflow.log_metrics(metrics)
-        # mlflow.sklearn.save_model(sk_model=model, path=params["paths"]["model"])
        
 
 
@@ -97,7 +103,8 @@ def process() -> None:
     # X_train, y_train = balance_data(X_train, y_train)
     model = train_model(X_train, y_train)
     metrics = evaluate_model(model, X_test, y_test)
-    record_model(model, X_train, metrics)
+    params_to_record = params["training"] | params["variables"] | {"data": data_url}
+    record_model(model, X_train, metrics,params_to_record)
 
 
 
