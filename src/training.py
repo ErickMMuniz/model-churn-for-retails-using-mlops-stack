@@ -25,7 +25,7 @@ params = dvc.api.params_show()
 
 data_url = dvc.api.get_url(
     path=params["paths"]["data"],
-    rev="main",
+    rev=params["training"]['version_data']
 )
 
 

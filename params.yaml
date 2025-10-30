@@ -38,6 +38,7 @@ featurization:
       monetary: float
       is_churn: bool
 training:
+  version_data: 'v0'
   columns:
     - recency
     # - frequency
