@@ -88,12 +88,21 @@ def evaluate_model(model, X_test: pd.DataFrame, y_test: pd.DataFrame) -> pd.Data
 
 
 @log_function_call
-def record_model(model, X_train, metrics, params_to_record):
+def record_model(model, X_train, metrics, params_to_record, df_raw):
+    eval_dataset = mlflow.data.from_pandas(
+        df_raw,
+        source=data_url,
+        name=params["paths"]["data"],
+        targets=params["training"]["target"][0]
+    )
+
     with mlflow.start_run():
         signature = infer_signature(X_train, model.predict(X_train))
         mlflow.sklearn.log_model(model, artifact_path="models/churn_model", signature=signature)
         mlflow.log_params(params_to_record)
         mlflow.log_metrics(metrics)
+        mlflow.log_input(eval_dataset, context="evaluation")
+        mlflow.end_run()
        
 
 
@@ -104,7 +113,7 @@ def process() -> None:
     model = train_model(X_train, y_train)
     metrics = evaluate_model(model, X_test, y_test)
     params_to_record = params["training"] | params["variables"] | {"data": data_url}
-    record_model(model, X_train, metrics,params_to_record)
+    record_model(model, X_train, metrics,params_to_record, df_raw)
 
 
 
