@@ -47,8 +47,8 @@ stages:
       size: 45580638
     - path: src/preparation.py
       hash: md5
-      md5: 14d3a02e8939d6b7d7d7d4f366008e85
-      size: 2041
+      md5: 8d100fd9e06ccb059319a3351f371489
+      size: 2085
     params:
       params.yaml:
         preparation.columns:
@@ -76,3 +76,34 @@ stages:
       hash: md5
       md5: b02381559191b527556b13fce660bca1
       size: 35943541
+  featurization:
+    cmd: python src/featurization.py
+    deps:
+    - path: data/prepared_data.csv
+      hash: md5
+      md5: b02381559191b527556b13fce660bca1
+      size: 35943541
+    - path: src/featurization.py
+      hash: md5
+      md5: d93798274511f5f031f02ff6bfe27191
+      size: 2627
+    params:
+      params.yaml:
+        featurization.columns:
+        - customer_id
+        - recency
+        - frequency
+        - monetary
+        - is_churn
+        featurization.types:
+          columns:
+            customer_id: int
+            recency: float
+            frequency: float
+            monetary: float
+            is_churn: bool
+    outs:
+    - path: data/featurization_data.csv
+      hash: md5
+      md5: a188a9514c6709e0774b67d09e38c5da
+      size: 216552

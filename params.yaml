@@ -26,10 +26,16 @@ preparation:
 featurization:
   columns:
     - customer_id
+    - recency
+    - frequency
+    - monetary
     - is_churn
   types:
     columns:
       customer_id: int
+      recency: float
+      frequency: float
+      monetary: float
       is_churn: bool
 paths:
   data: 'data/transacciones_retail.csv'
