@@ -1,3 +1,5 @@
 dvc
 notebook
 black
+scikit-learn
+matplotlib

@@ -15,11 +15,12 @@ def fetch_data() -> pd.DataFrame:
     return df
 
 
+@log_function_call
 def set_columns_types(df: pd.DataFrame) -> pd.DataFrame:
     return change_columns_types(df, params["preparation"]["types"]["columns"])
 
 
-@log_function_call
+log_function_call
 def make_featurization(df: pd.DataFrame) -> pd.DataFrame:
     customers = df["CustomerID"].unique()
     min_date = df["InvoiceDate"].min()
@@ -42,8 +43,8 @@ def make_featurization(df: pd.DataFrame) -> pd.DataFrame:
             customer_activity["InvoiceDate"] > last_shopping_day_minus_one_year
         ]
 
-        # If custumer has more than 1 invoice number
-        is_churn = customer_activity["InvoiceNo"].unique().size > 1
+        # If custumer has more than 1 invoice number is not churned
+        is_churn = customer_activity["InvoiceNo"].unique().size == 1
         # the number of days of the last purchse
         recency = (current_date - last_shopping_day).days
         # Mean of unique invoicr id in the last year
