@@ -1,6 +1,7 @@
 import logging
-from functools import wraps
+from functools import wraps, reduce
 import os
+from typing import Callable, T
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -19,3 +20,7 @@ def log_function_call(func):
             logger.error(f"Function '{func.__name__}' raised an exception: {e}", exc_info=True)
             raise  
     return wrapper
+
+def pipeline(initial: T, pipes: list[Callable]) -> T:
+    return reduce(lambda acc, pipe: pipe(acc), pipes, initial)
+

@@ -1,7 +1,7 @@
 import pandas as pd
 import dvc.api
 from utils import log_function_call
-from etl.extract import extract_data, filter_invoices_with_non_negative_quantity, filter_shop_tiems_with_empty_description_and_zero_unit_price
+from etl.extract import check_existing_columns, extract_data, filter_invoices_with_non_negative_quantity, filter_shop_tiems_with_empty_description_and_zero_unit_price
 from etl.transform import change_columns_types, sample_dataframe
 
 params = dvc.api.params_show()
@@ -26,8 +26,7 @@ def solve_null_data(df: pd.DataFrame) -> pd.DataFrame:
 @log_function_call
 def assert_columns(df: pd.DataFrame) -> None:
     columns: list[str] = params['preparation']['columns']
-    for c in columns:
-        assert c in df.columns, "Missing column: {}".format(c)
+    df = check_existing_columns(df, columns)
     return df
 
 @log_function_call
@@ -36,15 +35,15 @@ def check_columns_types(df: pd.DataFrame) -> pd.DataFrame:
 
 @log_function_call
 def check_model_constriants(df: pd.DataFrame) -> pd.DataFrame:
-    df = filter_invoices_with_non_negative_quantity(df)
     df = filter_shop_tiems_with_empty_description_and_zero_unit_price(df)
+    df = filter_invoices_with_non_negative_quantity(df)
     return df
 
 
 def process() -> None:
     df = fetch_data()
     df = assert_columns(df)
-    df = solve_null_data(df)
+    # df = solve_null_data(df)
     df = check_columns_types(df)
     df = check_model_constriants(df)
     df = sample_data(df)

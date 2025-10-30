@@ -36,10 +36,31 @@ def filter_invoices_with_non_negative_quantity(df: pd.DataFrame) -> pd.DataFrame
     df = df[~df['InvoiceNo'].isin(invoice_ids_with_only_negative_quantity)]
     return df
 
+def check_existing_columns(df: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
+    """
+    Asserts that a DataFrame contains a specified list of columns.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame.
+        columns (list[str]): A list of column names that must be present in the DataFrame.
+
+    Returns:
+        pd.DataFrame: The original DataFrame if all columns are present.
+
+    Raises:
+        AssertionError: If any of the specified columns are missing from the DataFrame.
+    """
+
+    for c in columns:
+        assert c in df.columns, "Missing column: {}".format(c)
+    return df
+
 def filter_shop_tiems_with_empty_description_and_zero_unit_price(df: pd.DataFrame) -> pd.DataFrame:
     return df[~(df['Description'].isna() & (df['UnitPrice'] == 0))]
 
 
 def pipeline_to_churn_model(path: str):
     df = extract_data(path)
-    
+
+
+

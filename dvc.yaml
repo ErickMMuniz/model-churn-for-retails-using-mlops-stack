@@ -10,14 +10,14 @@ stages:
     - preparation.types
     outs:
     - data/prepared_data.csv
-  featurization:
-    cmd: python src/featurization.py
-    deps:
-    - data/prepared_data.csv
-    - src/featurization.py
-    params:
-    - featurization.columns
-    - featurization.types
-    outs:
-    - data/featurization_data.csv
+  # featurization:
+  #   cmd: python src/featurization.py
+  #   deps:
+  #   - data/prepared_data.csv
+  #   - src/featurization.py
+  #   params:
+  #   - featurization.columns
+  #   - featurization.types
+  #   outs:
+  #   - data/featurization_data.csv
 
