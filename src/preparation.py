@@ -1,26 +1,23 @@
 import pandas as pd
 import dvc.api
-from utils import log_function_call, from_str_to_type
+from utils import log_function_call
+from etl.extract import extract_data, filter_invoices_with_non_negative_quantity, filter_shop_tiems_with_empty_description_and_zero_unit_price
+from etl.transform import change_columns_types, sample_dataframe
 
 params = dvc.api.params_show()
 
 @log_function_call
 def fetch_data()-> pd.DataFrame:
     path_data = params['paths']['data']
-    try:
-        df = pd.read_csv(path_data, encoding='utf-8')
-    except UnicodeDecodeError:
-        df = pd.read_csv(path_data, encoding='ISO-8859-1')
+    df = extract_data(path_data)
     return df
 
 @log_function_call
 def sample_data(df: pd.DataFrame) -> pd.DataFrame:
     sample_size = params['preparation']['sample_size']
-    n = int(df.shape[0] * sample_size)
-    if sample_size == 1:
-        return df
-    else:
-        return df.sample(n=n)
+    random_state = params['variables']['random_state']
+    df = sample_dataframe(df, sample_size, random_state)
+    return df
 
 @log_function_call 
 def solve_null_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -35,13 +32,12 @@ def assert_columns(df: pd.DataFrame) -> None:
 
 @log_function_call
 def check_columns_types(df: pd.DataFrame) -> pd.DataFrame:
-    columns_types: dict[str, str] = params['preparation']['types']['columns']
-    columns_types = {k: from_str_to_type(v) for k, v in columns_types.items()}
-    return df.astype(columns_types)
+    return change_columns_types(df, params['preparation']['types']['columns'])
 
 @log_function_call
 def check_model_constriants(df: pd.DataFrame) -> pd.DataFrame:
-    #TODO: After featurization
+    df = filter_invoices_with_non_negative_quantity(df)
+    df = filter_shop_tiems_with_empty_description_and_zero_unit_price(df)
     return df
 
 

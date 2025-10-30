@@ -1,8 +1,11 @@
 import logging
 from functools import wraps
+import os
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+ROOT_PROJECT_PATH_FOR_NOTEBOOKS: str = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 
 def log_function_call(func):
     @wraps(func)  
@@ -16,19 +19,3 @@ def log_function_call(func):
             logger.error(f"Function '{func.__name__}' raised an exception: {e}", exc_info=True)
             raise  
     return wrapper
-
-
-def from_str_to_type(type_name: str):
-    match type_name:
-        case 'int':
-            return int
-        case 'float':
-            return float
-        case 'str':
-            return str
-        case 'bool':
-            return bool
-        case 'datetime':
-            return 'datetime64[ns]'
-        case _:
-            return 'object'

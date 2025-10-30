@@ -9,8 +9,8 @@ stages:
       size: 45580638
     - path: src/preparation.py
       hash: md5
-      md5: 88dee824af70bd149a81377e1641eb10
-      size: 1721
+      md5: 5ee4a0ad6d78972d8447230674c8b0f9
+      size: 1637
     params:
       params.yaml:
         preparation.columns:
@@ -22,7 +22,7 @@ stages:
         - UnitPrice
         - CustomerID
         - Country
-        preparation.sample_size: 0.01
+        preparation.sample_size: 1.0
         preparation.types:
           columns:
             InvoiceNo: str
@@ -36,5 +36,43 @@ stages:
     outs:
     - path: data/prepared_data.csv
       hash: md5
-      md5: 6065facfdf861534fb1284f253a5ee1b
-      size: 359717
+      md5: ec6564a35bc0909a48d4314811e39d54
+      size: 35941501
+  preparation:
+    cmd: python src/preparation.py
+    deps:
+    - path: data/transacciones_retail.csv
+      hash: md5
+      md5: 5d295417e543b29d40366cd75fb4c75a
+      size: 45580638
+    - path: src/preparation.py
+      hash: md5
+      md5: f57bd37e2d3651e20732cdce2fa249c5
+      size: 1780
+    params:
+      params.yaml:
+        preparation.columns:
+        - InvoiceNo
+        - StockCode
+        - Description
+        - Quantity
+        - InvoiceDate
+        - UnitPrice
+        - CustomerID
+        - Country
+        preparation.sample_size: 1.0
+        preparation.types:
+          columns:
+            InvoiceNo: str
+            StockCode: str
+            Description: str
+            Quantity: int
+            InvoiceDate: datetime
+            UnitPrice: float
+            CustomerID: str
+            Country: str
+    outs:
+    - path: data/prepared_data.csv
+      hash: md5
+      md5: b02381559191b527556b13fce660bca1
+      size: 35943541
