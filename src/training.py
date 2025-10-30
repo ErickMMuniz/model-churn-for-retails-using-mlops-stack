@@ -115,7 +115,5 @@ def process() -> None:
     params_to_record = params["training"] | params["variables"] | {"data": data_url}
     record_model(model, X_train, metrics,params_to_record, df_raw)
 
-
-
 if __name__ == "__main__":
     process()
