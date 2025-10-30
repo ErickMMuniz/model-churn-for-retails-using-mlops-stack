@@ -1,6 +1,7 @@
 from pandas import DataFrame
 import pandas as pd
 
+
 def change_columns_types(df: pd.DataFrame, types: dict[str, str]) -> pd.DataFrame:
     """
     Changes the data types of specified columns in a DataFrame.
@@ -16,7 +17,10 @@ def change_columns_types(df: pd.DataFrame, types: dict[str, str]) -> pd.DataFram
     columns_types = {k: from_str_to_type(v) for k, v in types.items()}
     return df.astype(columns_types)
 
-def sample_dataframe(df: pd.DataFrame, sample_size: float, random_state: int) -> pd.DataFrame:
+
+def sample_dataframe(
+    df: pd.DataFrame, sample_size: float, random_state: int
+) -> pd.DataFrame:
     """
     Samples a DataFrame based on a specified sample size.
 
@@ -35,6 +39,7 @@ def sample_dataframe(df: pd.DataFrame, sample_size: float, random_state: int) ->
     else:
         return df.sample(n=n, random_state=random_state)
 
+
 def from_str_to_type(type_name: str):
     """
     Converts a string representation of a type to its actual type.
@@ -44,19 +49,19 @@ def from_str_to_type(type_name: str):
 
     Returns:
         type: The actual Python type or a string for pandas datetime.
-    
+
     Note: This function is primarily designed for use with `pd.Series` types.
     """
     match type_name:
-        case 'int':
+        case "int":
             return int
-        case 'float':
+        case "float":
             return float
-        case 'str':
+        case "str":
             return str
-        case 'bool':
+        case "bool":
             return bool
-        case 'datetime':
-            return 'datetime64[ns]'
+        case "datetime":
+            return "datetime64[ns]"
         case _:
-            return 'object'
+            return "object"

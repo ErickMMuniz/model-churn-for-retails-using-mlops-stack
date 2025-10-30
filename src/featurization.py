@@ -5,11 +5,13 @@ from utils import log_function_call
 
 params = dvc.api.params_show()
 
+
 @log_function_call
-def fetch_data()-> pd.DataFrame:
-    path = params['paths']['prepared_data']
-    df = pd.read_csv(path, encoding='utf-8')
+def fetch_data() -> pd.DataFrame:
+    path = params["paths"]["prepared_data"]
+    df = pd.read_csv(path, encoding="utf-8")
     return df
+
 
 def process() -> None:
     df = fetch_data()
