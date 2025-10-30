@@ -37,9 +37,17 @@ featurization:
       frequency: float
       monetary: float
       is_churn: bool
+training:
+  columns:
+    - recency
+    # - frequency
+    - monetary
+  target:
+    - is_churn
 paths:
   data: 'data/transacciones_retail.csv'
   prepared_data: 'data/prepared_data.csv'
   featurization_data: 'data/featurization_data.csv'
-
+  metrics_model: 'data/metrics_model.json'
+  model: 'models/churn_model'
   

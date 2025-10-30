@@ -3,6 +3,7 @@ import dvc.api
 from etl.transform import change_columns_types
 from utils import log_function_call
 from etl.extract import extract_data
+import numpy as np
 
 
 params = dvc.api.params_show()
@@ -21,6 +22,8 @@ def set_columns_types(df: pd.DataFrame) -> pd.DataFrame:
 
 
 log_function_call
+
+
 def make_featurization(df: pd.DataFrame) -> pd.DataFrame:
     customers = df["CustomerID"].unique()
     min_date = df["InvoiceDate"].min()
@@ -71,10 +74,17 @@ def make_featurization(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+@log_function_call
+def set_scale_data(df: pd.DataFrame) -> pd.DataFrame:
+    df["frequency"] = np.log(df["frequency"])
+    return df
+
+
 def process() -> None:
     df_raw = fetch_data()
     df = set_columns_types(df_raw)
     df = make_featurization(df)
+    df = set_scale_data(df)
 
     path_featurization_data = params["paths"]["featurization_data"]
     df.to_csv(path_featurization_data, index=False, encoding="utf-8")

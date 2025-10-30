@@ -85,8 +85,8 @@ stages:
       size: 35147693
     - path: src/featurization.py
       hash: md5
-      md5: 171fb5ac1be219ae891a95cacfbd5502
-      size: 2752
+      md5: 8f0ac9205a647e19908228c90daa06fd
+      size: 2936
     params:
       params.yaml:
         featurization.columns:
@@ -105,5 +105,26 @@ stages:
     outs:
     - path: data/featurization_data.csv
       hash: md5
-      md5: 86bca423b5675c39d7f1db2f2fe21899
-      size: 209225
+      md5: 419db29a679ea38984227fd1c0591905
+      size: 222160
+  training:
+    cmd: python src/training.py
+    deps:
+    - path: data/featurization_data.csv
+      hash: md5
+      md5: 419db29a679ea38984227fd1c0591905
+      size: 222160
+    - path: src/training.py
+      hash: md5
+      md5: daafa3a0693fcf51c8f8608f08047bfd
+      size: 2896
+    params:
+      params.yaml:
+        variables.random_state: 42
+        variables.test_size: 0.2
+        variables.train_size: 0.8
+    outs:
+    - path: data/metrics_model.json
+      hash: md5
+      md5: 27bfd55a0421b1f4f94c41ce285b2a52
+      size: 83

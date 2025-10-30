@@ -1,0 +1,5 @@
+outs:
+- md5: 5d295417e543b29d40366cd75fb4c75a
+  size: 45580638
+  hash: md5
+  path: transacciones_retail.csv

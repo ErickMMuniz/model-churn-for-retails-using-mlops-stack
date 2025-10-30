@@ -20,4 +20,15 @@ stages:
     - featurization.types
     outs:
     - data/featurization_data.csv
+  training:
+    cmd: python src/training.py
+    deps:
+    - data/featurization_data.csv
+    - src/training.py
+    params:
+    - variables.random_state
+    - variables.test_size
+    - variables.train_size
+    metrics:
+    - data/metrics_model.json
 
