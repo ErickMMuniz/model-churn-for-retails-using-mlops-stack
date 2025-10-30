@@ -14,15 +14,17 @@ def fetch_data() -> pd.DataFrame:
     df = extract_data(path)
     return df
 
+
 def set_columns_types(df: pd.DataFrame) -> pd.DataFrame:
     return change_columns_types(df, params["preparation"]["types"]["columns"])
 
+
 @log_function_call
 def make_featurization(df: pd.DataFrame) -> pd.DataFrame:
-    customers = df['CustomerID'].unique()
-    min_date = df['InvoiceDate'].min()
-    max_date = df['InvoiceDate'].max()
-    colums = params['featurization']['columns']
+    customers = df["CustomerID"].unique()
+    min_date = df["InvoiceDate"].min()
+    max_date = df["InvoiceDate"].max()
+    colums = params["featurization"]["columns"]
 
     current_date = max_date + pd.DateOffset(days=1)
 
@@ -33,19 +35,24 @@ def make_featurization(df: pd.DataFrame) -> pd.DataFrame:
     is_churn_list = []
 
     for customer in customers:
-        customer_activity = df[ df['CustomerID'] == customer] 
-        last_shopping_day = customer_activity['InvoiceDate'].max()
+        customer_activity = df[df["CustomerID"] == customer]
+        last_shopping_day = customer_activity["InvoiceDate"].max()
         last_shopping_day_minus_one_year = last_shopping_day - pd.DateOffset(years=1)
-        shopping_activity_last_year = customer_activity[ customer_activity['InvoiceDate'] > last_shopping_day_minus_one_year] 
+        shopping_activity_last_year = customer_activity[
+            customer_activity["InvoiceDate"] > last_shopping_day_minus_one_year
+        ]
 
         # If custumer has more than 1 invoice number
-        is_churn = customer_activity['InvoiceNo'].unique().size > 1
+        is_churn = customer_activity["InvoiceNo"].unique().size > 1
         # the number of days of the last purchse
         recency = (current_date - last_shopping_day).days
         # Mean of unique invoicr id in the last year
-        frecuency = shopping_activity_last_year['InvoiceNo'].unique().size / 12
+        frecuency = shopping_activity_last_year["InvoiceNo"].unique().size / 12
         # mean cost total of each invoice in the last year
-        monetary = (shopping_activity_last_year['Quantity'] * shopping_activity_last_year['UnitPrice']).mean()
+        monetary = (
+            shopping_activity_last_year["Quantity"]
+            * shopping_activity_last_year["UnitPrice"]
+        ).mean()
 
         customer_id_list.append(customer)
         recency_list.append(recency)
@@ -53,13 +60,14 @@ def make_featurization(df: pd.DataFrame) -> pd.DataFrame:
         monetary_list.append(monetary)
         is_churn_list.append(is_churn)
 
-
-    process_data = list(zip(customer_id_list,recency_list,frecuency_list,monetary_list,is_churn_list))
+    process_data = list(
+        zip(
+            customer_id_list, recency_list, frecuency_list, monetary_list, is_churn_list
+        )
+    )
     df = pd.DataFrame(process_data, columns=colums)
 
     return df
-
-
 
 
 def process() -> None:

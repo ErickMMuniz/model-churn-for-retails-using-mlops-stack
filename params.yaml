@@ -21,7 +21,7 @@ preparation:
       Quantity: int
       InvoiceDate: datetime
       UnitPrice: float
-      CustomerID: str
+      CustomerID: int
       Country: str
 featurization:
   columns:

@@ -69,24 +69,24 @@ stages:
             Quantity: int
             InvoiceDate: datetime
             UnitPrice: float
-            CustomerID: str
+            CustomerID: int
             Country: str
     outs:
     - path: data/prepared_data.csv
       hash: md5
-      md5: b02381559191b527556b13fce660bca1
-      size: 35943541
+      md5: 5b28d37dd56af62c2bb8fc83e7cfe4f3
+      size: 35147693
   featurization:
     cmd: python src/featurization.py
     deps:
     - path: data/prepared_data.csv
       hash: md5
-      md5: b02381559191b527556b13fce660bca1
-      size: 35943541
+      md5: 5b28d37dd56af62c2bb8fc83e7cfe4f3
+      size: 35147693
     - path: src/featurization.py
       hash: md5
-      md5: d93798274511f5f031f02ff6bfe27191
-      size: 2627
+      md5: 2c4f0c4e5f8e711c596bd8ec1a852b05
+      size: 2718
     params:
       params.yaml:
         featurization.columns:
@@ -105,5 +105,5 @@ stages:
     outs:
     - path: data/featurization_data.csv
       hash: md5
-      md5: a188a9514c6709e0774b67d09e38c5da
-      size: 216552
+      md5: f5018bf9df97f9ee4560a391b12860e7
+      size: 207874
