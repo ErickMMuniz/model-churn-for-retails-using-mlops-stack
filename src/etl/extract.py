@@ -58,6 +58,18 @@ def check_existing_columns(df: pd.DataFrame, columns: list[str]) -> pd.DataFrame
 def filter_shop_tiems_with_empty_description_and_zero_unit_price(df: pd.DataFrame) -> pd.DataFrame:
     return df[~(df['Description'].isna() & (df['UnitPrice'] == 0))]
 
+def drop_empty_invoice_id(df: pd.DataFrame) -> pd.DataFrame:
+    return df.dropna(subset=['InvoiceNo'])
+
+def drop_unit_price_less_than_zero(df: pd.DataFrame) -> pd.DataFrame:
+    return df[df['UnitPrice'] >= 0]
+
+
+def fill_empty_customer_id_by_existing_invoice(df: pd.DataFrame) -> pd.DataFrame:
+    inovices = df['InvoiceNo'].unique()
+    
+    
+
 
 def pipeline_to_churn_model(path: str):
     df = extract_data(path)
